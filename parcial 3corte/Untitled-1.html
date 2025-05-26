@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <title>Bienvenido al Restaurante</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #ff7e5f, #feb47b);
+            font-family: 'Lucida Sans', Tahoma, Geneva, Verdana, sans-serif;
+            color: #3e2723;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            font-weight: 900;
+            text-shadow: 1px 1px 2px #b35c09;
+        }
+        form {
+            background: #fff3e0;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            width: 350px;
+            max-width: 100%;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 0.9rem;
+            font-size: 1.1rem;
+            border-radius: 8px;
+            border: 2px solid #ffb74d;
+            outline: none;
+            transition: border-color 0.3s ease;
+            box-sizing: border-box;
+        }
+        input[type="text"]:focus {
+            border-color: #ff9800;
+            box-shadow: 0 0 6px #ff9800;
+        }
+        button {
+            margin-top: 1rem;
+            width: 100%;
+            padding: 0.85rem;
+            font-weight: bold;
+            font-size: 1.25rem;
+            border: none;
+            border-radius: 8px;
+            background-color: #ff9800;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #fb8c00;
+        }
+        #mensaje {
+            margin-top: 1.5rem;
+            font-size: 1.4rem;
+            font-weight: 700;
+            min-height: 2em;
+            color: #6d4c41;
+            text-shadow: 0 0 5px #f57c00aa;
+        }
+    </style>
+</head>
+<body>
+    <h1>Bienvenido a Restaurante Sabor Auténtico</h1>
+    <form id="miFormulario">
+        <input type="text" id="nombre" name="nombre" placeholder="Ingresa tu nombre" autocomplete="off" required />
+        <button type="submit">Ingresar</button>
+    </form>
+    <div id="mensaje"></div>
+
+    <script>
+        // Element references
+        const form = document.getElementById("miFormulario");
+        const inputNombre = document.getElementById("nombre");
+        const mensajeDiv = document.getElementById("mensaje");
+        const restaurantName = "Restaurante Sabor Auténtico";
+
+        // On page load, check localStorage for a saved name (BOM localStorage)
+        window.addEventListener("load", () => {
+            const savedName = localStorage.getItem("clienteNombre");
+            if(savedName) {
+                greetCustomer(savedName);
+            }
+        });
+
+        // Function to greet customer - manipulate DOM and BOM (document title)
+        function greetCustomer(nombre) {
+            const saludo = `¡Bienvenido a ${restaurantName}, ${nombre}!`;
+            mensajeDiv.textContent = saludo;
+            document.title = saludo; // Change document title (BOM)
+            window.alert(saludo);    // Popup greeting (BOM)
+        }
+
+        // Form submission event handler
+        form.addEventListener("submit", function(event) {
+            event.preventDefault(); // Avoid default submit
+
+            const nombre = inputNombre.value.trim();
+            if(nombre.length > 0) {
+                greetCustomer(nombre);
+                // Save name to localStorage (BOM)
+                localStorage.setItem("clienteNombre", nombre);
+                form.reset();
+            } else {
+                mensajeDiv.textContent = "Por favor, ingresa un nombre válido.";
+            }
+        });
+    </script>
+</body>
+</html>
+
